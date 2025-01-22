@@ -5,6 +5,5 @@ export default function Lab1() {
             <h3>Headings</h3>
             <p>Headings allow you to break up the content into multiple sections</p>
         </div>>
-    )
-    
+    );
 }
