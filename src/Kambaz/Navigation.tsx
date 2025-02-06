@@ -12,12 +12,12 @@ export default function KambazNavigation() {
       className="list-group rounded-0 position-fixed bottom-0 top-0 d-none d-md-block bg-black z-2"
     >
       <a 
-        id="wd-neu-link" 
+        id="wd-neu-link"
         target="_blank"
         href="https://www.northeastern.edu/"
         className="list-group-item bg-black border-0 text-center"
       >
-        <img src="NEU.png" width="75px" />
+        <img src="neulogo.jpg" width="75px" />
       </a>
       
       <Link 
@@ -66,15 +66,13 @@ export default function KambazNavigation() {
       </Link>
       
       <Link 
-        to="/Kambaz/Settings" 
-        id="wd-settings-link"
+        to="/Labs" 
+        id="wd-labs-link"
         className="list-group-item text-white bg-black text-center border-0"
       >
         <LiaCogSolid className="fs-1 text-white" /><br />
-        Settings
+        Labs
       </Link>
     </div>
   );
 }
-
-
