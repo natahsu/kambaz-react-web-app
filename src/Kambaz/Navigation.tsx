@@ -6,26 +6,17 @@ import { Link } from "react-router";
 
 export default function KambazNavigation() {
   return (
-    <div 
+    <div
       id="wd-kambaz-navigation" 
-      style={{ width: 120 }}
+      style={{ width: 110 }}
       className="list-group rounded-0 position-fixed bottom-0 top-0 d-none d-md-block bg-black z-2"
     >
-      <a 
-        id="wd-neu-link"
-        target="_blank"
-        href="https://www.northeastern.edu/"
-        className="list-group-item bg-black border-0 text-center"
-      >
-        <img src="neulogo.jpg" width="75px" />
-      </a>
-      
       <Link 
         to="/Kambaz/Account" 
         id="wd-account-link"
-        className="list-group-item text-center border-0 bg-black text-white"
+        className="list-group-item text-center border-0 bg-black text-white pt-4"
       >
-        <FaRegCircleUser className="fs-1 text text-white" /><br />
+        <FaRegCircleUser className="fs-1" /><br />
         Account
       </Link>
       
@@ -43,7 +34,7 @@ export default function KambazNavigation() {
         id="wd-course-link"
         className="list-group-item text-white bg-black text-center border-0"
       >
-        <LiaBookSolid className="fs-1 text-white" /><br />
+        <LiaBookSolid className="fs-1 text-danger" /><br />
         Courses
       </Link>
       
@@ -52,7 +43,7 @@ export default function KambazNavigation() {
         id="wd-calendar-link"
         className="list-group-item text-white bg-black text-center border-0"
       >
-        <IoCalendarOutline className="fs-1 text-white" /><br />
+        <IoCalendarOutline className="fs-1 text-danger" /><br />
         Calendar
       </Link>
       
@@ -61,7 +52,7 @@ export default function KambazNavigation() {
         id="wd-inbox-link"
         className="list-group-item text-white bg-black text-center border-0"
       >
-        <FaInbox className="fs-1 text-white" /><br />
+        <FaInbox className="fs-1 text-danger" /><br />
         Inbox
       </Link>
       
@@ -70,7 +61,7 @@ export default function KambazNavigation() {
         id="wd-labs-link"
         className="list-group-item text-white bg-black text-center border-0"
       >
-        <LiaCogSolid className="fs-1 text-white" /><br />
+        <LiaCogSolid className="fs-1 text-danger" /><br />
         Labs
       </Link>
     </div>

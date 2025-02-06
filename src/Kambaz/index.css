@@ -1,0 +1,46 @@
+#wd-dashboard {
+    padding: 20px;
+    background-color: #ffffff;
+  }
+  
+  .wd-dashboard-course {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+  }
+  
+  .card {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .card-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  
+  .card-text {
+    font-size: 0.8rem;
+    color: #666;
+  }
+  
+  .card-body {
+    padding: 0.8rem;
+  }
+  
+  #wd-dashboard-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  #wd-dashboard-published {
+    font-size: 1.2rem;
+    color: #000000;
+    margin: 1rem 0;
+  }
+  
+  hr {
+    margin: 1rem 0;
+    border-color: #ddd;
+  }

@@ -1,102 +1,94 @@
 import { Link } from "react-router-dom";
+import { Card, Row, Col } from "react-bootstrap";
+import "./index.css";
 
 export default function Dashboard() {
-    return (
-      <div id="wd-dashboard">
-        <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
-        <h2 id="wd-dashboard-published">Published Courses (7)</h2> <hr />
-        <div id="wd-dashboard-courses">
-          <div className="wd-dashboard-course">
-            <Link to="/Kambaz/Courses/1234/Home"
-                className="wd-dashboard-course-link" >
-              <img src="/images/reactjs.jpg" width={200} />
-              <div>
-                <h5> CS1234 React JS </h5>
-                <p className="wd-dashboard-course-title">
-                  Full Stack Software Developer </p>
-                <button> Go </button>
-              </div>
-            </Link>
-          </div>
+  const courses = [
+    {
+      id: "1234",
+      title: "CS4550-12631 Web Development",
+      description: "Section 12631 2024 Spring Full Semester",
+      image: "/images/database.jpg"
+    },
+    {
+      id: "2345",
+      title: "CS4550-12632 Web Development",
+      description: "Section 12632 2024 Spring Full Semester",
+      image: "/images/java.jpg"
+    },
+    {
+      id: "3456",
+      title: "CS4550-12633 Web Development",
+      description: "Section 12633 2024 Spring Full Semester",
+      image: "/images/mobile.jpg"
+    },
+    {
+      id: "4567",
+      title: "CS4550-12634 Web Development",
+      description: "Section 12634 2024 Spring Full Semester",
+      image: "/images/nodejs.jpg"
+    },
+    {
+      id: "5678",
+      title: "CS4550-12635 Web Development",
+      description: "Section 12635 2024 Spring Full Semester",
+      image: "/images/python.jpg"
+    },
+    {
+      id: "6789",
+      title: "CS4550-12636 Web Development",
+      description: "Section 12636 2024 Spring Full Semester",
+      image: "/images/reactjs.jpg"
+    },
+    {
+      id: "7890",
+      title: "CS4550-12637 Web Development",
+      description: "Section 12637 2024 Spring Full Semester",
+      image: "/images/webdev.jpg"
+    },
+    {
+      id: "8901",
+      title: "CS4550-12638 Web Development",
+      description: "Section 12638 2024 Spring Full Semester",
+      image: "/images/teslabot.jpg"
+    }
+  ];
 
-          <div className="wd-dashboard-course">
-            <Link to="/Kambaz/Courses/2345/Home"
-                className="wd-dashboard-course-link" >
-              <img src="/images/python.jpg" width={200} />
-              <div>
-                <h5>CS2345 Python Programming</h5>
-                <p className="wd-dashboard-course-title">
-                  Data Science Fundamentals</p>
-                <button>Go</button>
-              </div>
-            </Link>
-          </div>
-
-          <div className="wd-dashboard-course">
-            <Link to="/Kambaz/Courses/3456/Home"
-                className="wd-dashboard-course-link" >
-              <img src="/images/nodejs.jpg" width={200} />
-              <div>
-                <h5>CS3456 Node.js</h5>
-                <p className="wd-dashboard-course-title">
-                  Backend Development</p>
-                <button>Go</button>
-              </div>
-            </Link>
-          </div>
-
-          <div className="wd-dashboard-course">
-            <Link to="/Kambaz/Courses/4567/Home"
-                className="wd-dashboard-course-link" >
-              <img src="/images/java.jpg" width={200} />
-              <div>
-                <h5>CS4567 Java Programming</h5>
-                <p className="wd-dashboard-course-title">
-                  Object-Oriented Programming</p>
-                <button>Go</button>
-              </div>
-            </Link>
-          </div>
-
-          <div className="wd-dashboard-course">
-            <Link to="/Kambaz/Courses/5678/Home"
-                className="wd-dashboard-course-link" >
-              <img src="/images/database.jpg" width={200} />
-              <div>
-                <h5>CS5678 Database Systems</h5>
-                <p className="wd-dashboard-course-title">
-                  SQL and NoSQL Fundamentals</p>
-                <button>Go</button>
-              </div>
-            </Link>
-          </div>
-
-          <div className="wd-dashboard-course">
-            <Link to="/Kambaz/Courses/6789/Home"
-                className="wd-dashboard-course-link" >
-              <img src="/images/webdev.jpg" width={200} />
-              <div>
-                <h5>CS6789 Web Development</h5>
-                <p className="wd-dashboard-course-title">
-                  HTML, CSS, and JavaScript</p>
-                <button>Go</button>
-              </div>
-            </Link>
-          </div>
-
-          <div className="wd-dashboard-course">
-            <Link to="/Kambaz/Courses/7890/Home"
-                className="wd-dashboard-course-link" >
-              <img src="/images/mobile.jpg" width={200} />
-              <div>
-                <h5>CS7890 Mobile Development</h5>
-                <p className="wd-dashboard-course-title">
-                  iOS and Android Development</p>
-                <button>Go</button>
-              </div>
-            </Link>
-          </div>
-        </div>
+  return (
+    <div id="wd-dashboard">
+      <h1 id="wd-dashboard-title">Dashboard</h1>
+      <hr />
+      <h2 id="wd-dashboard-published">Published Courses (8)</h2>
+      <hr />
+      <div id="wd-dashboard-courses">
+        <Row xs={1} sm={2} md={3} lg={4} className="g-4">
+          {courses.map((course) => (
+            <Col key={course.id}>
+              <Card className="wd-dashboard-course">
+                <Link
+                  to={`/Kambaz/Courses/${course.id}/Home`}
+                  className="wd-dashboard-course-link text-decoration-none text-dark"
+                >
+                  <Card.Img
+                    variant="top"
+                    src={course.image}
+                    height={120}
+                    style={{ objectFit: "cover" }}
+                  />
+                  <Card.Body>
+                    <Card.Title className="wd-dashboard-course-title">
+                      {course.title}
+                    </Card.Title>
+                    <Card.Text className="wd-dashboard-course-description">
+                      {course.description}
+                    </Card.Text>
+                  </Card.Body>
+                </Link>
+              </Card>
+            </Col>
+          ))}
+        </Row>
       </div>
-
-);}
+    </div>
+  );
+}
