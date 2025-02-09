@@ -6,51 +6,51 @@ export default function Dashboard() {
   const courses = [
     {
       id: "1234",
-      title: "CS4550-12631 Web Development",
-      description: "Section 12631 2024 Spring Full Semester",
-      image: "/images/database.jpg"
+      title: "CS4550-87234 Web Development",
+      description: "CS4550.87234.120947\n120947 Spring 2025 Semester Full Term",
+      image: "/images/blue.jpg"
     },
     {
       id: "2345",
-      title: "CS4550-12632 Web Development",
-      description: "Section 12632 2024 Spring Full Semester",
-      image: "/images/java.jpg"
+      title: "CS3200-98321 Database Design",
+      description: "CS3200.98321.125678\n125678 Spring 2025 Semester Full Term",
+      image: "/images/darkblue.jpg"
     },
     {
       id: "3456",
-      title: "CS4550-12633 Web Development",
-      description: "Section 12633 2024 Spring Full Semester",
-      image: "/images/mobile.jpg"
+      title: "CS3500-67289 Object-Oriented Design",
+      description: "CS3500.67289.134567\n134567 Spring 2025 Semester Full Term",
+      image: "/images/green.jpg"
     },
     {
       id: "4567",
-      title: "CS4550-12634 Web Development",
-      description: "Section 12634 2024 Spring Full Semester",
-      image: "/images/nodejs.jpg"
+      title: "CS3650-74532 Computer Systems",
+      description: "CS3650.74532.145678\n145678 Spring 2025 Semester Full Term",
+      image: "/images/hotpink.jpg"
     },
     {
       id: "5678",
-      title: "CS4550-12635 Web Development",
-      description: "Section 12635 2024 Spring Full Semester",
-      image: "/images/python.jpg"
+      title: "CS3700-85643 Networks and Distributed Systems",
+      description: "CS3700.85643.156789\n156789 Spring 2025 Semester Full Term",
+      image: "/images/orange.jpg"
     },
     {
       id: "6789",
-      title: "CS4550-12636 Web Development",
-      description: "Section 12636 2024 Spring Full Semester",
-      image: "/images/reactjs.jpg"
+      title: "CS4500-92345 Software Development",
+      description: "CS4500.92345.167890\n167890 Spring 2025 Semester Full Term",
+      image: "/images/pink.jpg"
     },
     {
       id: "7890",
-      title: "CS4550-12637 Web Development",
-      description: "Section 12637 2024 Spring Full Semester",
-      image: "/images/webdev.jpg"
+      title: "CS4800-81234 Algorithms and Data",
+      description: "CS4800.81234.178901\n178901 Spring 2025 Semester Full Term",
+      image: "/images/red.jpg"
     },
     {
       id: "8901",
-      title: "CS4550-12638 Web Development",
-      description: "Section 12638 2024 Spring Full Semester",
-      image: "/images/teslabot.jpg"
+      title: "CS2510-76543 Fundamentals of Computer Science",
+      description: "CS2510.76543.189012\n189012 Spring 2025 Semester Full Term",
+      image: "/images/yellow.jpg"
     }
   ];
 
@@ -75,11 +75,11 @@ export default function Dashboard() {
                     height={120}
                     style={{ objectFit: "cover" }}
                   />
-                  <Card.Body>
+                  <Card.Body className="bg-white">
                     <Card.Title className="wd-dashboard-course-title">
                       {course.title}
                     </Card.Title>
-                    <Card.Text className="wd-dashboard-course-description">
+                    <Card.Text className="wd-dashboard-course-description text-secondary">
                       {course.description}
                     </Card.Text>
                   </Card.Body>

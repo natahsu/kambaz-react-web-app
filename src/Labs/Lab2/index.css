@@ -1,7 +1,3 @@
-p {
-    background-color: green;
-    color: white;
-    }    
 p#wd-id-selector-1 {
     background-color: red;
     color: white;
@@ -37,7 +33,7 @@ p#wd-id-selector-2 {
     background-color: #ff7070;
 }
 .wd-bg-color-green {
-    background-color: green; }
+  background-color: green; }
 .wd-bg-color-gray {
     background-color: lightgray; }    
 
