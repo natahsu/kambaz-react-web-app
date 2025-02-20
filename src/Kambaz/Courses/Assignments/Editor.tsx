@@ -5,10 +5,11 @@ import db from "../../../Kambaz/Database";
 interface Assignment {
   _id: string;
   title: string;
-  description: string;
-  points: number;
-  dueDate: string;
+  course: string;
+  module: string;
   availableDate: string;
+  dueDate: string;
+  points: number;
   status: string;
 }
 

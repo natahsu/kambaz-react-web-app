@@ -22,7 +22,6 @@ export default function Assignments() {
   const { courseId } = useParams();
   const { assignments } = db; 
 
-
   const courseAssignments = assignments.filter(
     (assignment) => assignment.course === courseId
   );

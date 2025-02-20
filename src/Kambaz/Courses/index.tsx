@@ -6,18 +6,25 @@ import AssignmentEditor from "./Assignments/Editor";
 import { Route, Routes, useParams, useLocation } from "react-router-dom";
 import { FaAlignJustify } from "react-icons/fa6";
 import PeopleTable from "./People/Table";
+import db from "../Database";
 
 export default function Courses() {
-  useParams();
+  const { courseId } = useParams();
   const { pathname } = useLocation();
-  
   const section = pathname.split("/").pop();
 
+  const { courses } = db;
+  const currentCourse = courses.find(course => course._id === courseId);
+  
+  const courseTitle = currentCourse 
+    ? currentCourse.name 
+    : "Course";
+    
   return (
     <div id="wd-courses">
       <h2 className="text-danger">
         <FaAlignJustify className="me-4 fs-4 mb-1" />
-        Course 1234 {section && `> ${section}`}
+        {courseTitle} {section && `> ${section}`}
       </h2>
       <hr />
       <div className="d-flex">
