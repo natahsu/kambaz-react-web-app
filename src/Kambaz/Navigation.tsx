@@ -1,18 +1,24 @@
-import { useState } from "react";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { IoCalendarOutline } from "react-icons/io5";
 import { LiaBookSolid, LiaCogSolid } from "react-icons/lia";
 import { FaInbox, FaRegCircleUser } from "react-icons/fa6";
-import { Link } from "react-router";
-import { FaUserFriends } from "react-icons/fa";
+import { Link, useLocation } from "react-router-dom";
 
 export default function KambazNavigation() {
-  const [selected, setSelected] = useState("/Kambaz/Dashboard"); // Default selected link
+  const { pathname } = useLocation();
+  
+  const links = [
+    { label: "Dashboard", path: "/Kambaz/Dashboard", icon: AiOutlineDashboard },
+    { label: "Courses", path: "/Kambaz/Dashboard", icon: LiaBookSolid },
+    { label: "Calendar", path: "/Kambaz/Calendar", icon: IoCalendarOutline },
+    { label: "Inbox", path: "/Kambaz/Inbox", icon: FaInbox },
+    { label: "Labs", path: "/Labs", icon: LiaCogSolid },
+  ];
 
   return (
     <div
       id="wd-kambaz-navigation"
-      style={{ width: 110 }}
+      style={{ width: 120 }}
       className="list-group rounded-0 position-fixed bottom-0 top-0 d-none d-md-block bg-black z-2"
     >
       <a
@@ -21,44 +27,34 @@ export default function KambazNavigation() {
         href="https://www.northeastern.edu/"
         className="list-group-item bg-black border-0 text-center"
       >
-        <img src="images/neulogo.jpg" width="75px" />
+        <img src="/images/neulogo.jpg" width="75px" />
       </a>
-
+      
       <Link
         to="/Kambaz/Account"
-        id="wd-account-link"
-        onClick={() => setSelected("/Kambaz/Account")}
-        className={`list-group-item text-center border-0 pt-4 ${
-          selected === "/Kambaz/Account" ? "bg-white text-danger" : "bg-black text-white"
-        }`}
+        className={`list-group-item text-center border-0 bg-black
+          ${pathname.includes("Account") ? "bg-white text-danger" : "bg-black text-white"}`}
       >
-        <FaRegCircleUser className={`fs-1 ${selected === "/Kambaz/Account" ? "text-danger" : "text-white"}`} />
+        <FaRegCircleUser 
+          className={`fs-1 ${pathname.includes("Account") ? "text-danger" : "text-white"}`}
+        />
         <br />
         Account
       </Link>
 
-      {[
-        { to: "/Kambaz/Dashboard", Icon: AiOutlineDashboard, id: "wd-dashboard-link", label: "Dashboard" },
-        { to: "/Kambaz/Courses", Icon: LiaBookSolid, id: "wd-course-link", label: "Courses" },
-        { to: "/Kambaz/Calendar", Icon: IoCalendarOutline, id: "wd-calendar-link", label: "Calendar" },
-        { to: "/Kambaz/Inbox", Icon: FaInbox, id: "wd-inbox-link", label: "Inbox" },
-        { to: "/Kambaz/Courses/:cid/People", Icon: FaUserFriends, id: "wd-people-link", label: "People" },
-        { to: "/Labs", Icon: LiaCogSolid, id: "wd-labs-link", label: "Labs" },
-      ].map(({ to, Icon, id, label }) => (
+      {links.map((link) => (
         <Link
-          key={to}
-          to={to}
-          id={id}
-          onClick={() => setSelected(to)}
-          className={`list-group-item text-center border-0 ${
-            selected === to ? "bg-white text-danger" : "bg-black text-white"
-          }`}
+          key={link.path}
+          to={link.path}
+          className={`list-group-item bg-black text-center border-0
+            ${pathname.includes(link.label) ? "text-danger bg-white" : "text-white bg-black"}`}
         >
-          <Icon className={`fs-1 text-danger`} /> {/* Always Red */}
+          {link.icon({ className: "fs-1 text-danger" })}
           <br />
-          {label}
+          {link.label}
         </Link>
       ))}
     </div>
   );
 }
+

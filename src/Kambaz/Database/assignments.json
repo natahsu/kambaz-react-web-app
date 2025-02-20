@@ -1,0 +1,102 @@
+[
+  {
+    "_id": "A101",
+    "title": "Propulsion Assignment",
+    "description": "Write an essay about web development.",
+    "course": "RS101",
+    "module": "Multiple Modules",
+    "availableDate": "2025-05-06T00:00:00",
+    "dueDate": "2025-05-13T23:59:00",
+    "points": 100,
+    "status": "published"
+  },
+  {
+    "_id": "A102",
+    "title": "Combustion Analysis",
+    "description": "Write an essay about web development.",
+    "course": "RS101",
+    "module": "Multiple Modules",
+    "availableDate": "2025-05-13T00:00:00",
+    "dueDate": "2025-05-20T23:59:00",
+    "points": 100,
+    "status": "published"
+  },
+  {
+    "_id": "A103",
+    "title": "Nozzle Design Project",
+    "description": "Write an essay about web development.",
+    "course": "RS101",
+    "module": "Multiple Modules",
+    "availableDate": "2025-05-20T00:00:00",
+    "dueDate": "2025-05-27T23:59:00",
+    "points": 100,
+    "status": "published"
+  },
+  {
+    "_id": "A201",
+    "title": "Aerodynamics Quiz",
+    "description": "Write an essay about web development.",
+    "course": "RS102",
+    "module": "Multiple Modules",
+    "availableDate": "2025-05-06T00:00:00",
+    "dueDate": "2025-05-13T23:59:00",
+    "points": 100,
+    "status": "published"
+  },
+  {
+    "_id": "A202",
+    "title": "Flow Analysis",
+    "description": "Write an essay about web development.",
+    "course": "RS102",
+    "module": "Multiple Modules",
+    "availableDate": "2025-05-13T00:00:00",
+    "dueDate": "2025-05-20T23:59:00",
+    "points": 100,
+    "status": "published"
+  },
+  {
+    "_id": "A203",
+    "title": "Heating Analysis",
+    "description": "Write an essay about web development.",
+    "course": "RS102",
+    "module": "Multiple Modules",
+    "availableDate": "2025-05-20T00:00:00",
+    "dueDate": "2025-05-27T23:59:00",
+    "points": 100,
+    "status": "published"
+  },
+  {
+    "_id": "A301",
+    "title": "Structural Design Task",
+    "description": "Write an essay about web development.",
+    "course": "RS103",
+    "module": "Multiple Modules",
+    "availableDate": "2025-05-06T00:00:00",
+    "dueDate": "2025-05-13T23:59:00",
+    "points": 100,
+    "status": "published"
+  },
+  {
+    "_id": "A302",
+    "title": "Orbital Calculations",
+    "description": "Write an essay about web development.",
+    "course": "RS103",
+    "module": "Multiple Modules",
+    "availableDate": "2025-05-13T00:00:00",
+    "dueDate": "2025-05-20T23:59:00",
+    "points": 100,
+    "status": "published"
+  },
+  {
+    "_id": "A303",
+    "title": "Systems Engineering Exam",
+    "description": "Write an essay about web development.",
+    "course": "RS103",
+    "module": "Multiple Modules",
+    "availableDate": "2025-05-20T00:00:00",
+    "dueDate": "2025-05-27T23:59:00",
+    "points": 100,
+    "status": "published"
+  }
+]
+

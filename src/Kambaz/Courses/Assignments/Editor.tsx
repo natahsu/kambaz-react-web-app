@@ -1,25 +1,47 @@
+import { useParams, Link } from "react-router-dom";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
+import db from "../../../Kambaz/Database"; 
+
+interface Assignment {
+  _id: string;
+  title: string;
+  description: string;
+  points: number;
+  dueDate: string;
+  availableDate: string;
+  status: string;
+}
+
+
 
 export default function AssignmentEditor() {
+  const { courseId, assignmentId } = useParams<{ courseId: string; assignmentId: string }>();
+  const assignment = db.assignments.find((a: Assignment) => a._id === assignmentId);
+
+
+  if (!assignment) {
+    return <div>Assignment not found</div>;
+  }
+
   return (
     <Container id="wd-assignments-editor" className="p-5" style={{ maxWidth: "1000px" }}>
       <Form>
         <Form.Group className="mb-4">
           <Form.Label className="fw-bold">Assignment Name</Form.Label>
-          <Form.Control type="text" defaultValue="A1" />
+          <Form.Control type="text" defaultValue={assignment.title} />
         </Form.Group>
 
         <Form.Group className="mb-4">
           <Form.Control
             as="textarea"
             rows={6}
-            defaultValue="The assignment is available online Submit a link to the landing page of your Web application running on Netlify. The landing page should include the following: Your full name and section Links to each of the lab assignments Link to the Kanbas application Links to all relevant source code repositories The Kanbas application should include a link to navigate back to the landing page."
+            defaultValue={assignment.description}
           />
         </Form.Group>
 
         <div className="d-flex align-items-center mb-3">
           <Form.Label className="text-end me-3 mb-0" style={{ minWidth: "150px" }}>Points</Form.Label>
-          <Form.Control type="number" defaultValue={100} style={{ width: "100px" }} />
+          <Form.Control type="number" defaultValue={assignment.points} style={{ width: "100px" }} />
         </div>
 
         <div className="d-flex align-items-center mb-3">
@@ -43,7 +65,6 @@ export default function AssignmentEditor() {
               <Form.Select className="mb-3">
                 <option>Online</option>
               </Form.Select>
-
               <div>
                 <div className="fw-bold mb-2">Online Entry Options</div>
                 <div className="ms-3">
@@ -59,58 +80,62 @@ export default function AssignmentEditor() {
         </div>
 
         <div className="d-flex mb-3">
-  <Form.Label className="text-end me-3 mb-0" style={{ minWidth: "150px" }}>Assign</Form.Label>
-  <Card style={{ flex: 1 }}>
-    <Card.Body>
-      <div className="mb-3">
-        <div className="fw-bold mb-2">Assign to</div>
-        <div className="border rounded p-2">
-          Everyone
-          <Button variant="link" className="ms-2 p-0 text-decoration-none">×</Button>
-        </div>
-      </div>
+          <Form.Label className="text-end me-3 mb-0" style={{ minWidth: "150px" }}>Assign</Form.Label>
+          <Card style={{ flex: 1 }}>
+            <Card.Body>
+              <div className="mb-3">
+                <div className="fw-bold mb-2">Assign to</div>
+                <div className="border rounded p-2">
+                  Everyone
+                  <Button variant="link" className="ms-2 p-0 text-decoration-none">×</Button>
+                </div>
+              </div>
 
-      <Form.Group className="mb-3">
-        <Form.Label className="fw-bold">Due</Form.Label>
-        <div className="d-flex align-items-center">
-          <Form.Control 
-            type="datetime-local" 
-            defaultValue="2024-05-13T23:59" 
-          />
-        </div>
-      </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label className="fw-bold">Due</Form.Label>
+                <div className="d-flex align-items-center">
+                  <Form.Control
+                    type="datetime-local"
+                    defaultValue={assignment.dueDate}
+                  />
+                </div>
+              </Form.Group>
 
-      <Row>
-        <Col md={6}>
-          <Form.Group>
-            <Form.Label className="fw-bold">Available from</Form.Label>
-            <div className="d-flex align-items-center">
-              <Form.Control 
-                type="datetime-local" 
-                defaultValue="2024-05-06T00:00" 
-              />
-            </div>
-          </Form.Group>
-        </Col>
-        <Col md={6}>
-          <Form.Group>
-            <Form.Label className="fw-bold">Until</Form.Label>
-            <div className="d-flex align-items-center">
-              <Form.Control 
-                type="datetime-local" 
-                defaultValue="2024-05-20T23:59" 
-              />
-            </div>
-          </Form.Group>
-        </Col>
-      </Row>
-    </Card.Body>
-  </Card>
-</div>
+              <Row>
+                <Col md={6}>
+                  <Form.Group>
+                    <Form.Label className="fw-bold">Available from</Form.Label>
+                    <div className="d-flex align-items-center">
+                      <Form.Control
+                        type="datetime-local"
+                        defaultValue={assignment.availableDate}
+                      />
+                    </div>
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group>
+                    <Form.Label className="fw-bold">Until</Form.Label>
+                    <div className="d-flex align-items-center">
+                      <Form.Control
+                        type="datetime-local"
+                        defaultValue={assignment.dueDate}
+                      />
+                    </div>
+                  </Form.Group>
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
+        </div>
 
         <div className="d-flex justify-content-end border-top pt-3">
-          <Button variant="light" className="me-2">Cancel</Button>
-          <Button variant="danger">Save</Button>
+          <Link to={`/Kanbas/courses/${courseId}/assignments`}>
+            <Button variant="light" className="me-2">Cancel</Button>
+          </Link>
+          <Link to={`/Kanbas/courses/${courseId}/assignments`}>
+            <Button variant="danger">Save</Button>
+          </Link>
         </div>
       </Form>
     </Container>
