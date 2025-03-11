@@ -9,17 +9,16 @@ import PeopleTable from "./People/Table";
 import db from "../Database";
 
 export default function Courses() {
-  const { courseId } = useParams();
+  const { cid } = useParams();
   const { pathname } = useLocation();
-  const section = pathname.split("/").pop();
 
   const { courses } = db;
-  const currentCourse = courses.find(course => course._id === courseId);
-  
-  const courseTitle = currentCourse 
-    ? currentCourse.name 
-    : "Course";
-    
+  const currentCourse = courses.find(course => course._id === cid);
+  const courseTitle = currentCourse ? currentCourse.name : "name";
+
+  const pathSegments = pathname.split("/").filter(segment => segment);
+  const section = pathSegments.length > 0 ? pathSegments[pathSegments.length - 1] : "";
+
   return (
     <div id="wd-courses">
       <h2 className="text-danger">
@@ -27,6 +26,7 @@ export default function Courses() {
         {courseTitle} {section && `> ${section}`}
       </h2>
       <hr />
+
       <div className="d-flex">
         <div className="d-none d-md-block">
           <CourseNavigation />
@@ -36,8 +36,9 @@ export default function Courses() {
             <Route path="Home" element={<Home />} />
             <Route path="Modules" element={<Modules />} />
             <Route path="Assignments" element={<Assignments />} />
-            <Route path="Assignments/:aid" element={<AssignmentEditor />} />
+            <Route path="Assignments/:assignmentId/editor" element={<AssignmentEditor />} />
             <Route path="People" element={<PeopleTable />} />
+            <Route path="*" element={<div>No match for: {window.location.pathname}</div>} />
           </Routes>
         </div>
       </div>

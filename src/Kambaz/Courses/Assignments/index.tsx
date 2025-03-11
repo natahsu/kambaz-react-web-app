@@ -19,11 +19,11 @@ interface Assignments {
 
 export default function Assignments() {
   const navigate = useNavigate();
-  const { courseId } = useParams();
+  const { cid } = useParams();
   const { assignments } = db; 
 
   const courseAssignments = assignments.filter(
-    (assignment) => assignment.course === courseId
+    (assignment) => assignment.course === cid
   );
 
   const formatDate = (dateString: string) => {
@@ -91,7 +91,7 @@ export default function Assignments() {
                   cursor: "pointer",
                   border: '0.5px solid #dee2e6'
                 }}
-                onClick={() => navigate(`/courses/${courseId}/assignments/${assignment._id}/editor`)}
+                onClick={() => navigate(`/courses/${cid}/assignments/${assignment._id}/editor`)}
               >
                 <div className="position-absolute h-100" 
                   style={{ 

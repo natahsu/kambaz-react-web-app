@@ -5,6 +5,7 @@ import db from "../../../Kambaz/Database";
 interface Assignment {
   _id: string;
   title: string;
+  description?: string;
   course: string;
   module: string;
   availableDate: string;
@@ -13,16 +14,17 @@ interface Assignment {
   status: string;
 }
 
-
-
 export default function AssignmentEditor() {
-  const { courseId, assignmentId } = useParams<{ courseId: string; assignmentId: string }>();
+  const params = useParams<{ cid: string; assignmentId: string }>();
+  const cid = params.cid;
+  const assignmentId = params.assignmentId;
+  
   const assignment = db.assignments.find((a: Assignment) => a._id === assignmentId);
-
 
   if (!assignment) {
     return <div>Assignment not found</div>;
   }
+
 
   return (
     <Container id="wd-assignments-editor" className="p-5" style={{ maxWidth: "1000px" }}>
@@ -131,10 +133,10 @@ export default function AssignmentEditor() {
         </div>
 
         <div className="d-flex justify-content-end border-top pt-3">
-          <Link to={`/Kanbas/courses/${courseId}/assignments`}>
+          <Link to={`/Kanbas/courses/${cid}/assignments`}>
             <Button variant="light" className="me-2">Cancel</Button>
           </Link>
-          <Link to={`/Kanbas/courses/${courseId}/assignments`}>
+          <Link to={`/Kanbas/courses/${cid}/assignments`}>
             <Button variant="danger">Save</Button>
           </Link>
         </div>
