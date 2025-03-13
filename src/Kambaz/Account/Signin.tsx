@@ -1,34 +1,60 @@
-// src/Kambaz/Account/Signup.tsx
-import { Link } from "react-router-dom";
-import { Form } from "react-bootstrap";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Form, Button } from "react-bootstrap";
+import { setCurrentUser } from "./reducer";
+import db from "../Database";
 
 export default function SignIn() {
+  const [credentials, setCredentials] = useState<{ username: string; password: string }>({
+    username: "",
+    password: ""
+  });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const signin = () => {
+    const user = db.users.find(
+      (u: any) => u.username === credentials.username && u.password === credentials.password
+    );
+
+    if (!user) return;
+
+    dispatch(setCurrentUser(user));
+    navigate("/Kambaz/Dashboard");
+  };
+
   return (
-    <div id="wd-signup-screen">
+    <div id="wd-signin-screen">
       <h1>Signin</h1>
-      <Form.Control 
+      <Form.Control
         id="wd-username"
         placeholder="username"
         className="mb-2"
+        value={credentials.username}
+        onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
       />
-      <Form.Control 
+      <Form.Control
         id="wd-password"
         placeholder="password"
         type="password"
         className="mb-2"
+        value={credentials.password}
+        onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
       />
-      <Link 
-        id="wd-signup-btn"
-        to="/Kambaz/Account/Profile"
-        className="btn btn-primary w-100 mb-2">
+      <Button
+        id="wd-signin-btn"
+        onClick={signin}
+        className="btn btn-primary w-100 mb-2"
+      >
         Signin
-      </Link>
-      <Link 
-        id="wd-signup-link" 
-        to="/Kambaz/Account/Signup">
+      </Button>
+      <Link
+        id="wd-signup-link"
+        to="/Kambaz/Account/Signup"
+      >
         Signup
       </Link>
     </div>
   );
 }
-

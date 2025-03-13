@@ -1,146 +1,134 @@
-import { useParams, Link } from "react-router-dom";
-import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
-import db from "../../../Kambaz/Database"; 
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { updateAssignment } from "./reducer";
 
 interface Assignment {
   _id: string;
   title: string;
-  description?: string;
   course: string;
   module: string;
   availableDate: string;
   dueDate: string;
   points: number;
   status: string;
+  description?: string;
 }
 
-export default function AssignmentEditor() {
-  const params = useParams<{ cid: string; assignmentId: string }>();
-  const cid = params.cid;
-  const assignmentId = params.assignmentId;
+export default function AssignmentsEditor() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { cid, assignmentId } = useParams();
+  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
   
-  const assignment = db.assignments.find((a: Assignment) => a._id === assignmentId);
+  const assignmentToEdit = assignments.find((a: Assignment) => a._id === assignmentId);
 
-  if (!assignment) {
-    return <div>Assignment not found</div>;
-  }
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [points, setPoints] = useState(0);
+  const [dueDate, setDueDate] = useState("");
+  const [availableDate, setAvailableDate] = useState("");
+  const [availableUntilDate, setAvailableUntilDate] = useState("");
 
+  useEffect(() => {
+    if (assignmentToEdit) {
+      setTitle(assignmentToEdit.title);
+      setDescription(assignmentToEdit.description || "");
+      setPoints(assignmentToEdit.points);
+      setDueDate(assignmentToEdit.dueDate.slice(0,16));
+      setAvailableDate(assignmentToEdit.availableDate.slice(0,16));
+      setAvailableUntilDate(assignmentToEdit.availableUntilDate ? assignmentToEdit.availableUntilDate.slice(0,16) : "");
+    }
+  }, [assignmentToEdit]);
+
+  const handleSave = () => {
+    dispatch(updateAssignment({
+      _id: assignmentId,
+      title,
+      description,
+      points,
+      dueDate,
+      availableDate,
+      availableUntilDate,
+    }));
+    navigate(`/Kambaz/Courses/${cid}/assignments`);
+  };
+
+  const handleCancel = () => {
+    navigate(`/Kambaz/Courses/${cid}/assignments`);
+  };
 
   return (
-    <Container id="wd-assignments-editor" className="p-5" style={{ maxWidth: "1000px" }}>
-      <Form>
-        <Form.Group className="mb-4">
-          <Form.Label className="fw-bold">Assignment Name</Form.Label>
-          <Form.Control type="text" defaultValue={assignment.title} />
-        </Form.Group>
-
-        <Form.Group className="mb-4">
-          <Form.Control
-            as="textarea"
-            rows={6}
-            defaultValue={assignment.description}
+    <div className="container py-4">
+      <h3>Edit Assignment</h3>
+      <form>
+        <div className="mb-3">
+          <label className="form-label">Title</label>
+          <input
+            type="text"
+            className="form-control"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
-        </Form.Group>
-
-        <div className="d-flex align-items-center mb-3">
-          <Form.Label className="text-end me-3 mb-0" style={{ minWidth: "150px" }}>Points</Form.Label>
-          <Form.Control type="number" defaultValue={assignment.points} style={{ width: "100px" }} />
         </div>
 
-        <div className="d-flex align-items-center mb-3">
-          <Form.Label className="text-end me-3 mb-0" style={{ minWidth: "150px" }}>Assignment Group</Form.Label>
-          <Form.Select style={{ width: "200px" }}>
-            <option>ASSIGNMENTS</option>
-          </Form.Select>
+        <div className="mb-3">
+          <label className="form-label">Description</label>
+          <textarea
+            className="form-control"
+            rows={4}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
         </div>
 
-        <div className="d-flex align-items-center mb-3">
-          <Form.Label className="text-end me-3 mb-0" style={{ minWidth: "150px" }}>Display Grade as</Form.Label>
-          <Form.Select style={{ width: "200px" }}>
-            <option>Percentage</option>
-          </Form.Select>
+        <div className="mb-3">
+          <label className="form-label">Points</label>
+          <input
+            type="number"
+            className="form-control"
+            value={points}
+            onChange={(e) => setPoints(parseInt(e.target.value))}
+          />
         </div>
 
-        <div className="d-flex mb-3">
-          <Form.Label className="text-end me-3 mb-0" style={{ minWidth: "150px" }}>Submission Type</Form.Label>
-          <Card style={{ flex: 1 }}>
-            <Card.Body>
-              <Form.Select className="mb-3">
-                <option>Online</option>
-              </Form.Select>
-              <div>
-                <div className="fw-bold mb-2">Online Entry Options</div>
-                <div className="ms-3">
-                  <Form.Check type="checkbox" label="Text Entry" />
-                  <Form.Check type="checkbox" label="Website URL" defaultChecked />
-                  <Form.Check type="checkbox" label="Media Recordings" />
-                  <Form.Check type="checkbox" label="Student Annotation" />
-                  <Form.Check type="checkbox" label="File Uploads" />
-                </div>
-              </div>
-            </Card.Body>
-          </Card>
+        <div className="mb-3">
+          <label className="form-label">Due Date</label>
+          <input
+            type="datetime-local"
+            className="form-control"
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+          />
         </div>
 
-        <div className="d-flex mb-3">
-          <Form.Label className="text-end me-3 mb-0" style={{ minWidth: "150px" }}>Assign</Form.Label>
-          <Card style={{ flex: 1 }}>
-            <Card.Body>
-              <div className="mb-3">
-                <div className="fw-bold mb-2">Assign to</div>
-                <div className="border rounded p-2">
-                  Everyone
-                  <Button variant="link" className="ms-2 p-0 text-decoration-none">×</Button>
-                </div>
-              </div>
-
-              <Form.Group className="mb-3">
-                <Form.Label className="fw-bold">Due</Form.Label>
-                <div className="d-flex align-items-center">
-                  <Form.Control
-                    type="datetime-local"
-                    defaultValue={assignment.dueDate}
-                  />
-                </div>
-              </Form.Group>
-
-              <Row>
-                <Col md={6}>
-                  <Form.Group>
-                    <Form.Label className="fw-bold">Available from</Form.Label>
-                    <div className="d-flex align-items-center">
-                      <Form.Control
-                        type="datetime-local"
-                        defaultValue={assignment.availableDate}
-                      />
-                    </div>
-                  </Form.Group>
-                </Col>
-                <Col md={6}>
-                  <Form.Group>
-                    <Form.Label className="fw-bold">Until</Form.Label>
-                    <div className="d-flex align-items-center">
-                      <Form.Control
-                        type="datetime-local"
-                        defaultValue={assignment.dueDate}
-                      />
-                    </div>
-                  </Form.Group>
-                </Col>
-              </Row>
-            </Card.Body>
-          </Card>
+        <div className="mb-3">
+          <label className="form-label">Available From Date</label>
+          <input
+            type="datetime-local"
+            className="form-control"
+            value={availableDate}
+            onChange={(e) => setAvailableDate(e.target.value)}
+          />
         </div>
 
-        <div className="d-flex justify-content-end border-top pt-3">
-          <Link to={`/Kanbas/courses/${cid}/assignments`}>
-            <Button variant="light" className="me-2">Cancel</Button>
-          </Link>
-          <Link to={`/Kanbas/courses/${cid}/assignments`}>
-            <Button variant="danger">Save</Button>
-          </Link>
+        <div className="mb-3">
+          <label className="form-label">Available Until Date</label>
+          <input
+            type="datetime-local"
+            className="form-control"
+            value={availableUntilDate}
+            onChange={(e) => setAvailableUntilDate(e.target.value)}
+          />
         </div>
-      </Form>
-    </Container>
-  );
+
+        <button className="btn btn-success me-2" onClick={handleSave}>
+          Save
+        </button>
+        <button className="btn btn-secondary" onClick={handleCancel}>
+          Cancel
+        </button>
+       </form>
+      </div>
+    );
 }

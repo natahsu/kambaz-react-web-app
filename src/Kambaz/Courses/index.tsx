@@ -6,19 +6,17 @@ import AssignmentEditor from "./Assignments/Editor";
 import { Route, Routes, useParams, useLocation } from "react-router-dom";
 import { FaAlignJustify } from "react-icons/fa6";
 import PeopleTable from "./People/Table";
-import db from "../Database";
 
-export default function Courses() {
+export default function Courses({ courses }: { courses: any[]; }) {
   const { cid } = useParams();
   const { pathname } = useLocation();
 
-  const { courses } = db;
-  const currentCourse = courses.find(course => course._id === cid);
-  const courseTitle = currentCourse ? currentCourse.name : "name";
+  const course = courses.find((course) => course._id === cid);
+  const courseTitle = course ? course.name : "name";
 
   const pathSegments = pathname.split("/").filter(segment => segment);
   const section = pathSegments.length > 0 ? pathSegments[pathSegments.length - 1] : "";
-
+  
   return (
     <div id="wd-courses">
       <h2 className="text-danger">
