@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import db from "./Database";
 
 
-interface _Course {
+interface Course {
   _id: string;
   name: string;
   description: string;
@@ -18,7 +18,7 @@ interface _Course {
 export default function Dashboard(
   { courses, course, setCourse, addNewCourse,
     deleteCourse, updateCourse }: {
-      courses: any[]; course: any; setCourse: (course: any) => void;
+      courses: Course[]; course: Course; setCourse: (course: Course) => void;
       addNewCourse: () => void; deleteCourse: (course: any) => void;
       updateCourse: () => void;
     }) {

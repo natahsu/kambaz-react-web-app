@@ -2,10 +2,8 @@ import { ListGroup } from "react-bootstrap";
 import { BsGripVertical, BsThreeDotsVertical, BsSearch, BsCaretDownFill } from "react-icons/bs";
 import { FaFileAlt } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
-import LessonControlButtons from "../Modules/LessonControlButtons";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteAssignment } from "./reducer";
-import db from "../../Database";
 
 interface Assignment {
   _id: string;
