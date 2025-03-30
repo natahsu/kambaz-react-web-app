@@ -13,4 +13,7 @@ const store = configureStore({
   },
 });
 
+export type RootState = ReturnType<typeof store.getState>; // Correct typing for Redux state
+export type AppDispatch = typeof store.dispatch;
+
 export default store;
