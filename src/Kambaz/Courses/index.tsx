@@ -6,12 +6,14 @@ import AssignmentEditor from "./Assignments/Editor";
 import { Route, Routes, useParams, useLocation } from "react-router-dom";
 import { FaAlignJustify } from "react-icons/fa6";
 import PeopleTable from "./People/Table";
+import { useSelector } from "react-redux";
 
-export default function Courses({ courses }: { courses: any[]; }) {
+export default function Courses() {
   const { cid } = useParams();
   const { pathname } = useLocation();
+  const { courses } = useSelector((state: any) => state.courses);
 
-  const course = courses.find((course) => course._id === cid);
+  const course = courses.find((course: any) => course._id === cid);
   const courseTitle = course ? course.name : "name";
 
   const pathSegments = pathname.split("/").filter(segment => segment);

@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { createReducer, createAction } from "@reduxjs/toolkit";
+import coursesData from "../Database/courses.json";
 
 interface Course {
   _id: string;
@@ -22,7 +23,7 @@ export const updateCourse = createAction("UPDATE_COURSE");
 export const setCourse = createAction<Course>("SET_COURSE");
 
 const initialState: CourseState = {
-  courses: [],
+  courses: coursesData, // Initialize with the imported JSON data
   course: {
     _id: uuidv4(),
     name: "New Course",

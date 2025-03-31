@@ -20,7 +20,10 @@ export default function Assignments() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { cid } = useParams();
-  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+    
+  const assignments = useSelector((state: any) => 
+    state.assignments ? state.assignments.assignments : []
+  );
 
   const courseAssignments = assignments.filter(
     (assignment: Assignment) => assignment.course === cid
@@ -91,6 +94,7 @@ export default function Assignments() {
           </ListGroup.Item>
 
           {courseAssignments.map((assignment: Assignment) => {
+            console.log("Rendering assignment:", assignment);
             const availableDate = formatDate(assignment.availableDate);
             const dueDate = formatDate(assignment.dueDate);
             
