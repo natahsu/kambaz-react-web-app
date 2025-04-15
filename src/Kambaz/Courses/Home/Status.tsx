@@ -1,54 +1,61 @@
-import { MdOutlineNotifications } from "react-icons/md";
-import { BiBlock, BiImport } from "react-icons/bi";
+import { MdDoNotDisturbAlt } from "react-icons/md";
+import {
+  BsHouseFill,
+  BsBarChartFill,
+  BsMegaphoneFill,
+  BsBellFill,
+} from "react-icons/bs";
+import { FaCheckCircle } from "react-icons/fa";
+import { BiImport } from "react-icons/bi";
 import { LiaFileImportSolid } from "react-icons/lia";
-import { AiOutlineHome } from "react-icons/ai";
-import { BsBarChartLine } from "react-icons/bs";
-import { TbNews } from "react-icons/tb";
-import { HiOutlineStatusOnline } from "react-icons/hi";
 import { Button } from "react-bootstrap";
-import { FaCheck } from "react-icons/fa";
-
+import ProtectedFaculty from "../../ProtectedFaculty";
+{
+}
 export default function CourseStatus() {
   return (
-    <div id="wd-course-status" style={{ width: "250px" }} className="p-3">
-      <h2 className="mb-3">Course Status</h2>
-      
-      <div className="d-flex mb-4">
-        <Button variant="light" size="sm" className="w-50 text-nowrap border">
-          <BiBlock className="me-2" /> Unpublish
+    <ProtectedFaculty studentAccess={<></>}>
+      <div id="wd-course-status" style={{ width: "350px" }}>
+        <h2>Course Status</h2>
+        <div className="d-flex">
+          <div className="w-50 pe-1">
+            <Button
+              variant="secondary"
+              size="lg"
+              className="w-100 text-nowrap "
+            >
+              <MdDoNotDisturbAlt className="me-2 fs-5" /> Unpublish{" "}
+            </Button>{" "}
+          </div>
+          <div className="w-50">
+            <Button variant="success" size="lg" className="w-100">
+              <FaCheckCircle className="me-2 fs-5" /> Publish{" "}
+            </Button>{" "}
+          </div>
+        </div>
+        <br />
+        <Button variant="secondary" size="lg" className="w-100 mt-1 text-start">
+          <BiImport className="me-2 fs-5" /> Import Existing Content{" "}
         </Button>
-        <Button variant="success" size="sm" className="w-50">
-          <FaCheck className="me-2" /> Published
+        <Button variant="secondary" size="lg" className="w-100 mt-1 text-start">
+          <LiaFileImportSolid className="me-2 fs-5" /> Import from Commons{" "}
+        </Button>
+        <Button variant="secondary" size="lg" className="w-100 mt-1 text-start">
+          <BsHouseFill className="me-2 fs-5" /> Choose Home Page{" "}
+        </Button>
+        <Button variant="secondary" size="lg" className="w-100 mt-1 text-start">
+          <BsBarChartFill className="me-2 fs-5" /> View Course Screen{" "}
+        </Button>
+        <Button variant="secondary" size="lg" className="w-100 mt-1 text-start">
+          <BsMegaphoneFill className="me-2 fs-5" /> New Announcement{" "}
+        </Button>
+        <Button variant="secondary" size="lg" className="w-100 mt-1 text-start">
+          <BsBarChartFill className="me-2 fs-5" /> New Analytics{" "}
+        </Button>
+        <Button variant="secondary" size="lg" className="w-100 mt-1 text-start">
+          <BsBellFill className="me-2 fs-5" /> View Course Notifications{" "}
         </Button>
       </div>
-      
-      <Button variant="light" size="sm" className="w-100 mb-2 text-start border ps-3">
-        <BiImport className="me-2" /> Import Existing Content
-      </Button>
-      
-      <Button variant="light" size="sm" className="w-100 mb-2 text-start border ps-3">
-        <LiaFileImportSolid className="me-2" /> Import from Commons
-      </Button>
-      
-      <Button variant="light" size="sm" className="w-100 mb-2 text-start border ps-3">
-        <AiOutlineHome className="me-2" /> Choose Home Page
-      </Button>
-      
-      <Button variant="light" size="sm" className="w-100 mb-2 text-start border ps-3">
-        <HiOutlineStatusOnline className="me-2" /> View Course Stream
-      </Button>
-      
-      <Button variant="light" size="sm" className="w-100 mb-2 text-start border ps-3">
-        <TbNews className="me-2" /> New Announcement
-      </Button>
-      
-      <Button variant="light" size="sm" className="w-100 mb-2 text-start border ps-3">
-        <BsBarChartLine className="me-2" /> New Analytics
-      </Button>
-      
-      <Button variant="light" size="sm" className="w-100 mb-2 text-start border ps-3">
-        <MdOutlineNotifications className="me-2" /> View Course Notifications
-      </Button>
-    </div>
+    </ProtectedFaculty>
   );
 }

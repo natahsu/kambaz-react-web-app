@@ -1,40 +1,59 @@
-import { useParams } from "react-router-dom";
-import { Table } from "react-bootstrap";
+import { Button, Table, Form } from "react-bootstrap";
 import { FaUserCircle } from "react-icons/fa";
-import users from "../../Database/users.json";
-import enrollments from "../../Database/enrollments.json";
-
-interface User {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  loginId: string;
-  section: string;
-  role: string;
-  lastActivity: string;
-  totalActivity: string;
-}
-
-interface Enrollment {
-  _id: string;
-  user: string;
-  course: string;
-}
-
+import { useParams } from "react-router-dom";
+import * as coursesClient from "../client";
+import { useEffect, useState } from "react";
+import ProtectedFaculty from "../../ProtectedFaculty";
 export default function PeopleTable() {
   const { cid } = useParams();
-  console.log("Current course ID:", cid);
+  const [enrollments, setEnrollments] = useState<any[]>([]);
+  const [userId, setUserId] = useState<string>("");
 
-  const filteredUsers = users.filter((user: User) =>
-    enrollments.some(
-      (enrollment: Enrollment) => enrollment.user === user._id && enrollment.course === cid
-    )
-  );
+  useEffect(() => {
+    async function fetchEnrollments() {
+      try {
+        const response = await coursesClient.findEnrollmentsForCourse(
+          cid as string
+        );
+        setEnrollments(response || []);
+      } catch (error) {
+        console.error("Error fetching enrollments:", error);
+        setEnrollments([]);
+      }
+    }
 
-  console.log("Filtered users:", filteredUsers);
-
+    fetchEnrollments();
+  }, [cid]);
+  async function handleAddUser() {
+    try {
+      await coursesClient.addUserToCourse(cid as string, userId);
+      const updatedEnrollments = await coursesClient.findEnrollmentsForCourse(
+        cid as string
+      );
+      setEnrollments(updatedEnrollments || []);
+      setUserId("");
+      alert("User added successfully!");
+    } catch (error) {
+      console.error("Error adding user to course:", error);
+      alert("Failed to add user. Please try again.");
+    }
+  }
   return (
     <div id="wd-people-table">
+      <ProtectedFaculty studentAccess={<></>}>
+        <div className="d-flex mb-3">
+          <Form.Control
+            type="text"
+            placeholder="Enter User ID"
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
+            className="me-2"
+          />
+          <Button variant="primary" onClick={handleAddUser}>
+            Add User
+          </Button>
+        </div>
+      </ProtectedFaculty>
       <Table striped>
         <thead>
           <tr>
@@ -47,7 +66,7 @@ export default function PeopleTable() {
           </tr>
         </thead>
         <tbody>
-          {filteredUsers.map((user: User) => (
+          {enrollments.map((user: any) => (
             <tr key={user._id}>
               <td className="wd-full-name text-nowrap">
                 <FaUserCircle className="me-2 fs-1 text-secondary" />

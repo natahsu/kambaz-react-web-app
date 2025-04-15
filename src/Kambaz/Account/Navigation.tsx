@@ -1,39 +1,40 @@
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-
 export default function AccountNavigation() {
-  const { currentUser } = useSelector((state: any) => state.account);
   const { pathname } = useLocation();
+  const isSignin = pathname.includes("Signin");
+  const isSignup = pathname.includes("Signup");
+  const { currentUser } = useSelector((state: any) => state.account);
 
   return (
-    <div className="nav flex-column">
-      {!currentUser && (
+    <div id="wd-account-navigation" className="wd list-group fs-5 rounded-0">
+      {!currentUser ? (
         <>
           <Link
             to="/Kambaz/Account/Signin"
-            className={`nav-link border-0 ${pathname.includes("Signin")
-                ? "text-dark border-start border-4 border-dark"
-                : "text-danger"
-              }`}>
+            id="wd-account-signin-link"
+            className={`list-group-item ${
+              isSignin ? "active text-black" : "text-danger"
+            } border border-0`}
+          >
             Signin
           </Link>
           <Link
             to="/Kambaz/Account/Signup"
-            className={`nav-link border-0 ${pathname.includes("Signup")
-                ? "text-dark border-start border-4 border-dark"
-                : "text-danger"
-              }`}>
+            id="wd-account-signup-link"
+            className={`list-group-item border border-0 ${
+              isSignup ? "active text-black" : "text-danger"
+            }`}
+          >
             Signup
           </Link>
         </>
-      )}
-      {currentUser && (
+      ) : (
         <Link
           to="/Kambaz/Account/Profile"
-          className={`nav-link border-0 ${pathname.includes("Profile")
-              ? "text-dark border-start border-4 border-dark"
-              : "text-danger"
-            }`}>
+          id="wd-account-profile-link"
+          className="list-group-item text-black active border border-0"
+        >
           Profile
         </Link>
       )}

@@ -7,6 +7,8 @@ import { Route, Routes, useParams, useLocation } from "react-router-dom";
 import { FaAlignJustify } from "react-icons/fa6";
 import PeopleTable from "./People/Table";
 import { useSelector } from "react-redux";
+import { Navigate } from "react-router";
+import Quizzes from "./Quizzes";
 
 export default function Courses() {
   const { cid } = useParams();
@@ -33,12 +35,13 @@ export default function Courses() {
         </div>
         <div className="flex-fill">
           <Routes>
+          <Route path="/" element={<Navigate to="Home" />} />
             <Route path="Home" element={<Home />} />
             <Route path="Modules" element={<Modules />} />
             <Route path="Assignments" element={<Assignments />} />
-            <Route path="Assignments/:assignmentId/editor" element={<AssignmentEditor />} />
+            <Route path="Assignments/:aid" element={<AssignmentEditor />} />
             <Route path="People" element={<PeopleTable />} />
-            <Route path="*" element={<div>No match for: {window.location.pathname}</div>} />
+            <Route path="Quizzes" element={<Quizzes courses={courses} />} />
           </Routes>
         </div>
       </div>

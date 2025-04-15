@@ -1,21 +1,58 @@
+import Nav from "react-bootstrap/Nav";
 import { useLocation } from "react-router";
 
 export default function TOC() {
   const { pathname } = useLocation();
+
   return (
-    <ul className="nav nav-pills" id="wd-toc">
-      <li className="nav-item"><a id="wd-a" href="#/Labs" className="nav-link">Labs</a></li>
-      <li className="nav-item"><a id="wd-a1" href="#/Labs/Lab1"
-        className={`nav-link ${pathname.includes("Lab1") ? "active" : ""}`}>Lab 1</a></li>
-      <li className="nav-item"><a id="wd-a2" href="#/Labs/Lab2"
-        className={`nav-link ${pathname.includes("Lab2") ? "active" : ""}`}>Lab 2</a></li>
-      <li className="nav-item"><a id="wd-a3" href="#/Labs/Lab3"
-        className={`nav-link ${pathname.includes("Lab3") ? "active" : ""}`}>Lab 3</a></li>
-      <li className="nav-item"><a id="wd-a4" href="#/Labs/Lab4"
-        className={`nav-link ${pathname.includes("Lab4") ? "active" : ""}`}>Lab 4</a></li>
-      <li className="nav-item"><a id="wd-k" href="#/Kambaz" className="nav-link">Kambaz</a></li>
-      <li className="nav-item"><a id="wd-github" href="https://github.com/natahsu/kambaz-react-web-app" target="_blank"
-        className="nav-link">My GitHub</a></li>
-    </ul>
+    <Nav variant="pills">
+      <Nav.Item>
+        <Nav.Link href="#/Labs">Labs</Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link href="#/Labs/Lab1" active={pathname.includes("Lab1")}>
+          Lab 1
+        </Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link href="#/Labs/Lab2" active={pathname.includes("Lab2")}>
+          Lab 2
+        </Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link href="#/Labs/Lab3" active={pathname.includes("Lab3")}>
+          Lab 3
+        </Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link href="#/Labs/Lab4" active={pathname.includes("Lab4")}>
+          Lab 4
+        </Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link href="#/Labs/Lab5" active={pathname.includes("Lab5")}>
+          Lab 5
+        </Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link href="#/Kambaz">Kambaz</Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link
+          id="wd-github"
+          href="https://github.com/natahsu/kambaz-react-web-app"
+        >
+          Natalie Hsu React Web App Github
+        </Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link
+          id="wd-node-github"
+          href="https://github.com/natahsu/kambaz-node-server-app"
+        >
+          Kambaz Node Server App Github
+        </Nav.Link>
+      </Nav.Item>
+    </Nav>
   );
 }
