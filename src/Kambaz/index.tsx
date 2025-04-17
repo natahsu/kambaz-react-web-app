@@ -12,7 +12,7 @@ import * as courseClient from "./Courses/client";
 import * as userClient from "./Account/client";
 
 export default function Kambaz() {
-  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const { currentUser } = useSelector((state: any) => state.account);
   const [courses, setCourses] = useState<any[]>([]);
   const [course, setCourse] = useState<any>({
     _id: uuidv4(),
