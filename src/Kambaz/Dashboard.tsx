@@ -3,7 +3,6 @@ import { Card, Row, Col } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { addCourse, deleteCourse, updateCourse, setCourse } from "./Courses/reducer";
 import "./index.css";
-import enrollmentsData from "./Database/enrollments.json";
 
 interface Course {
   _id: string;
@@ -11,9 +10,20 @@ interface Course {
   description: string;
   image?: string;
   number?: string;
+  enrolled?: boolean;
 }
 
-export default function Dashboard() {
+interface DashboardProps {
+  enrolling: boolean;
+  setEnrolling: (enrolling: boolean) => void;
+  updateEnrollment: (courseId: string, enrolled: boolean) => void;
+}
+
+export default function Dashboard({ 
+  enrolling, 
+  setEnrolling,
+  updateEnrollment 
+}: DashboardProps) {
   const dispatch = useDispatch();
   const account = useSelector((state: any) => state.account) || {};
   const { currentUser } = account;
@@ -21,36 +31,17 @@ export default function Dashboard() {
 
   const isFaculty = currentUser?.role === "FACULTY";
   
-  let displayCourses: Course[] = [];
-  
-  if (currentUser) {
-    if (currentUser.role === "FACULTY") {
-      displayCourses = courses;
-    } 
-    else if (currentUser.role === "STUDENT") {
-      
-      const userEnrollments = enrollmentsData.filter(
-        enrollment => enrollment.user === currentUser.userId || 
-                      enrollment.user === currentUser._id
-      );
-      
-      const enrolledCourseIds = userEnrollments.map(enrollment => enrollment.course);
-      displayCourses = courses.filter((course: { _id: string; number: string; }) => 
-        enrolledCourseIds.includes(course._id) || 
-        enrolledCourseIds.includes(course.number)
-      );
-      
-    } 
-    else if (currentUser.role === "TA") {
-      if (currentUser.taCourses) {
-        displayCourses = courses.filter((course: { _id: any; }) => currentUser.taCourses.includes(course._id));
-      }
-    }
-  }
-  
   return (
     <div id="wd-dashboard">
-      <h1 id="wd-dashboard-title">Dashboard</h1>
+      <h1 id="wd-dashboard-title">
+        Dashboard
+        <button 
+          onClick={() => setEnrolling(!enrolling)} 
+          className="float-end btn btn-primary"
+        >
+          {enrolling ? "My Courses" : "All Courses"}
+        </button>
+      </h1>
       <hr />
 
       {isFaculty && (
@@ -79,18 +70,38 @@ export default function Dashboard() {
         </>
       )}
 
-      <h2 id="wd-dashboard-published">Published Courses ({displayCourses.length})</h2>
+      <h2 id="wd-dashboard-published">
+        {enrolling ? "Available Courses" : "Published Courses"} ({courses.length})
+      </h2>
       <hr />
       <div id="wd-dashboard-courses">
         <Row xs={1} md={5} className="g-4">
-          {displayCourses.map((course: Course) => (
+          {courses.map((course: Course) => (
             <Col key={course._id} className="wd-dashboard-course" style={{ width: "300px" }}>
               <Card style={{ border: "none" }}>
-                <Link to={`/Kambaz/Courses/${course._id}/Home`} className="text-decoration-none text-dark">
+                {/* Updated link to point to Assignments */}
+                <Link to={`/Kambaz/Courses/${course._id}/Assignments`} className="text-decoration-none text-dark">
                   <img src={course.image || "/images/reactjs.jpg"} width="100%" height={160} alt={course.name} />
                   <div className="card-body">
-                    <h5 className="card-title">{course.name}</h5>
-                    <p className="card-text" style={{ maxHeight: 100, overflowY: "hidden" }}>{course.description}</p>
+                    <h5 className="card-title">
+                      {enrolling && (
+                        <button
+                          className={`btn ${
+                            course.enrolled ? "btn-danger" : "btn-success"
+                          } float-end`}
+                          onClick={(event) => {
+                            event.preventDefault();
+                            updateEnrollment(course._id, !course.enrolled);
+                          }}
+                        >
+                          {course.enrolled ? "Unenroll" : "Enroll"}
+                        </button>
+                      )}
+                      {course.name}
+                    </h5>
+                    <p className="card-text" style={{ maxHeight: 100, overflowY: "hidden" }}>
+                      {course.description}
+                    </p>
                     <button className="btn btn-primary">Go</button>
 
                     {isFaculty && (

@@ -3,6 +3,7 @@ const axiosWithCredentials = axios.create({ withCredentials: true });
 const REMOTE_SERVER = import.meta.env.VITE_REMOTE_SERVER;
 const COURSES_API = `${REMOTE_SERVER}/api/courses`;
 const ENROLLMENTS_API = `${REMOTE_SERVER}/api/enrollments`;
+
 export const fetchAllCourses = async () => {
   const { data } = await axiosWithCredentials.get(`${COURSES_API}`);
   return data;
@@ -85,3 +86,11 @@ export async function deleteUserFromCourse(courseId: string, userId: string) {
     throw error;
   }
 }
+export const createCourse = async (course: any) => {
+  const { data } = await axiosWithCredentials.post(COURSES_API, course);
+  return data;
+};
+export const findUsersForCourse = async (courseId: string) => {
+  const response = await axios.get(`${COURSES_API}/${courseId}/users`);
+  return response.data;
+};

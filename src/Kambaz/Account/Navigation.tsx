@@ -1,9 +1,11 @@
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
+
 export default function AccountNavigation() {
   const { pathname } = useLocation();
   const isSignin = pathname.includes("Signin");
   const isSignup = pathname.includes("Signup");
+  const isUsers = pathname.includes("Users"); // Add this line
   const { currentUser } = useSelector((state: any) => state.account);
 
   return (
@@ -30,13 +32,28 @@ export default function AccountNavigation() {
           </Link>
         </>
       ) : (
-        <Link
-          to="/Kambaz/Account/Profile"
-          id="wd-account-profile-link"
-          className="list-group-item text-black active border border-0"
-        >
-          Profile
-        </Link>
+        <>
+          <Link
+            to="/Kambaz/Account/Profile"
+            id="wd-account-profile-link"
+            className={`list-group-item ${
+              pathname.includes("Profile") ? "active text-black" : "text-danger"
+            } border border-0`}
+          >
+            Profile
+          </Link>
+          {currentUser.role === "ADMIN" && (
+            <Link
+              to="/Kambaz/Account/Users"
+              id="wd-account-users-link"
+              className={`list-group-item ${
+                isUsers ? "active text-black" : "text-danger"
+              } border border-0`}
+            >
+              Users
+            </Link>
+          )}
+        </>
       )}
     </div>
   );
