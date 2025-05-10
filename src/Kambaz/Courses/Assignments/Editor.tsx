@@ -1,139 +1,195 @@
-export default function AssignmentEditor() {
-    return (
-        <div id="wd-assignments-editor">
-        <div style={{ fontWeight: 'bold', marginBottom: '5px' }}>
-          <label htmlFor="wd-name">Assignment Name</label>
-        </div>
-        <input id="wd-name" defaultValue="A1 - ENV + HTML" />
-        <br /><br />
-        
-        <textarea 
-          id="wd-description" 
-          rows={8}
-          style={{ width: '400px' }}
-          defaultValue="The assignment is available online Submit a link to the landing page of your application running on Netlify. The landing page should include the following: Your full name and section Links to each of the lab assignments Link to the Kambaz application where to all relevant source code repositories The Kambaz application should include a link to navigate back to the landing page." 
-        />
-        <br /><br />
-        
-        <table cellSpacing={12}>
-          <tbody>
-            <tr>
-              <td align="right" valign="top">
-                <label htmlFor="wd-points">Points</label>
-              </td>
-              <td>
-                <input id="wd-points" type="number" defaultValue={100} />
-              </td>
-            </tr>
-            
-            <tr>
-              <td align="right">
-                <label htmlFor="wd-group">Assignment Group</label>
-              </td>
-              <td>
-                <select id="wd-group">
-                  <option>ASSIGNMENTS</option>
-                </select>
-              </td>
-            </tr>
-            
-            <tr>
-              <td align="right">
-                <label htmlFor="wd-display-grade-as">Display Grade as</label>
-              </td>
-              <td>
-                <select id="wd-display-grade-as">
-                  <option>Percentage</option>
-                </select>
-              </td>
-            </tr>
-            
-            <tr>
-              <td align="right">
-                <label htmlFor="wd-submission-type">Submission Type</label>
-              </td>
-              <td>
-                <select id="wd-submission-type">
-                  <option>Online</option>
-                </select>
-              </td>
-            </tr>
-            
-            <tr>
-              <td></td>
-              <td>
-                <div style={{ marginTop: '10px' }}>
-                  Online Entry Options
-                  <div style={{ marginTop: '8px' }}>
-                    <div>
-                      <input type="checkbox" id="wd-text-entry" />
-                      <label htmlFor="wd-text-entry">Text Entry</label>
-                    </div>
-                    <div>
-                      <input type="checkbox" id="wd-website-url" />
-                      <label htmlFor="wd-website-url">Website URL</label>
-                    </div>
-                    <div>
-                      <input type="checkbox" id="wd-media-recordings" />
-                      <label htmlFor="wd-media-recordings">Media Recordings</label>
-                    </div>
-                    <div>
-                      <input type="checkbox" id="wd-student-annotation" />
-                      <label htmlFor="wd-student-annotation">Student Annotation</label>
-                    </div>
-                    <div>
-                      <input type="checkbox" id="wd-file-uploads" />
-                      <label htmlFor="wd-file-uploads">File Uploads</label>
-                    </div>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            
-            <tr>
-              <td align="right">
-                <label htmlFor="wd-assign-to">Assign to</label>
-              </td>
-              <td>
-                <input id="wd-assign-to" defaultValue="Everyone" style={{ width: '200px' }} />
-              </td>
-            </tr>
-            
-            <tr>
-              <td colSpan={2}>
-                <div style={{ marginTop: '20px' }}>
-                  <div>Due</div>
-                  <input type="date" id="wd-due-date" defaultValue="2024-05-13" />
-                </div>
-              </td>
-            </tr>
-            
-            <tr>
-              <td colSpan={2}>
-                <div>Available from</div>
-                <input type="date" id="wd-available-from" defaultValue="2024-05-06" />
-                <div style={{ display: 'inline-block', marginLeft: '20px' }}>Until</div>
-                <input 
-                  type="date" 
-                  id="wd-available-until" 
-                  defaultValue="2024-05-20"
-                  style={{ marginLeft: '10px' }}
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        
-        <div style={{ 
-          borderTop: '1px solid #ccc',
-          marginTop: '20px',
-          paddingTop: '20px',
-          textAlign: 'right'
-        }}>
-          <button>Cancel</button>
-          <button style={{ marginLeft: '10px' }}>Save</button>
-        </div>
-      </div>
-    );
-  }
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { updateAssignment, addAssignment } from "./reducer";
+
+interface Assignment {
+  _id: string;
+  title: string;
+  course: string;
+  module: string;
+  availableDate: string;
+  dueDate: string;
+  points: number;
+  status: string;
+  description?: string;
+  availableUntilDate?: string;
+}
+
+//okay
+export default function AssignmentsEditor() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { cid, assignmentId } = useParams();
+    
+  const assignments = useSelector((state: any) => 
+    state.assignments ? state.assignments.assignments : []
+  );
   
+  const isNewAssignment = assignmentId === "new";
+  
+  const assignmentToEdit = isNewAssignment 
+    ? null 
+    : assignments.find((a: Assignment) => a._id === assignmentId);
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [points, setPoints] = useState(100);
+  const [dueDate, setDueDate] = useState("");
+  const [availableDate, setAvailableDate] = useState("");
+  const [availableUntilDate, setAvailableUntilDate] = useState("");
+  const [module, setModule] = useState("Module 1");
+
+  useEffect(() => {
+    if (assignmentToEdit) {
+      setTitle(assignmentToEdit.title);
+      setDescription(assignmentToEdit.description || "");
+      setPoints(assignmentToEdit.points);
+      setModule(assignmentToEdit.module);
+      
+      try {
+        setDueDate(assignmentToEdit.dueDate.slice(0,16));
+        setAvailableDate(assignmentToEdit.availableDate.slice(0,16));
+        if (assignmentToEdit.availableUntilDate) {
+          setAvailableUntilDate(assignmentToEdit.availableUntilDate.slice(0,16));
+        }
+      } catch (e) {
+        console.error("Error formatting dates:", e);
+        const today = new Date();
+        const nextWeek = new Date(today);
+        nextWeek.setDate(today.getDate() + 7);
+        setDueDate(nextWeek.toISOString().slice(0,16));
+        setAvailableDate(today.toISOString().slice(0,16));
+        setAvailableUntilDate(nextWeek.toISOString().slice(0,16));
+      }
+      
+    } else if (isNewAssignment) {
+      const today = new Date();
+      const nextWeek = new Date(today);
+      nextWeek.setDate(today.getDate() + 7);
+      
+      setTitle("New Assignment");
+      setDescription("");
+      setPoints(100);
+      setModule("Module 1");
+      setDueDate(nextWeek.toISOString().slice(0,16));
+      setAvailableDate(today.toISOString().slice(0,16));
+      setAvailableUntilDate(nextWeek.toISOString().slice(0,16));
+    }
+  }, [assignmentToEdit, isNewAssignment]);
+
+  const handleSave = () => {
+    const assignmentData = {
+      title,
+      description,
+      points,
+      dueDate,
+      availableDate,
+      availableUntilDate,
+      module,
+      course: cid,
+      status: "PUBLISHED"
+    };
+    
+    
+    if (isNewAssignment) {
+      dispatch(addAssignment(assignmentData));
+    } else {
+      dispatch(updateAssignment({
+        ...assignmentData,
+        _id: assignmentId
+      }));
+    }
+    
+    navigate(`/Kambaz/Courses/${cid}/assignments`);
+  };
+
+  const handleCancel = () => {
+    console.log("Canceling assignment edit/creation");
+    navigate(`/Kambaz/Courses/${cid}/assignments`);
+  };
+
+  return (
+    <div className="container py-4">
+      <h3>{isNewAssignment ? "Create Assignment" : "Edit Assignment"}</h3>
+      <form>
+        <div className="mb-3">
+          <label className="form-label">Title</label>
+          <input
+            type="text"
+            className="form-control"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label">Description</label>
+          <textarea
+            className="form-control"
+            rows={4}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label">Module</label>
+          <input
+            type="text"
+            className="form-control"
+            value={module}
+            onChange={(e) => setModule(e.target.value)}
+          />
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label">Points</label>
+          <input
+            type="number"
+            className="form-control"
+            value={points}
+            onChange={(e) => setPoints(parseInt(e.target.value))}
+          />
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label">Due Date</label>
+          <input
+            type="datetime-local"
+            className="form-control"
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+          />
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label">Available From Date</label>
+          <input
+            type="datetime-local"
+            className="form-control"
+            value={availableDate}
+            onChange={(e) => setAvailableDate(e.target.value)}
+          />
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label">Available Until Date</label>
+          <input
+            type="datetime-local"
+            className="form-control"
+            value={availableUntilDate}
+            onChange={(e) => setAvailableUntilDate(e.target.value)}
+          />
+        </div>
+
+        <button type="button" className="btn btn-success me-2" onClick={handleSave}>
+          Save
+        </button>
+        <button type="button" className="btn btn-secondary" onClick={handleCancel}>
+          Cancel
+        </button>
+      </form>
+    </div>
+  );
+}
