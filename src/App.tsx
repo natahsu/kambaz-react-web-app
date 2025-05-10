@@ -1,16 +1,24 @@
 import Labs from "./Labs";
 import Kambaz from "./Kambaz";
-import { HashRouter, Route, Routes, Navigate } from "react-router-dom";
+import store from "./Kambaz/store";
+import { Provider } from "react-redux";
 
-export default function App() {
+import { HashRouter, Navigate, Route, Routes } from "react-router";
+
+function App() {
   return (
     <HashRouter>
-    <div>
-      <Routes>
-        <Route path="/" element={<Navigate to="Kambaz" />} />
-        <Route path="/Labs/*" element={<Labs />} />
-        <Route path="/Kambaz/*" element={<Kambaz />} />
-      </Routes>
-    </div>
+      <Provider store={store}>
+        <div>
+          <Routes>
+            <Route path="/" element={<Navigate to="Kambaz" />} />
+            <Route path="/Labs/*" element={<Labs />} />
+            <Route path="/Kambaz/*" element={<Kambaz />} />
+          </Routes>
+        </div>
+      </Provider>
     </HashRouter>
-  );}
+  );
+}
+
+export default App;
